@@ -153,8 +153,24 @@ use_fast_math(zmusiclite)
 target_include_directories(zmusic INTERFACE $<INSTALL_INTERFACE:include> $<BUILD_INTERFACE:${ZMusic_SOURCE_DIR}/include>)
 target_include_directories(zmusiclite INTERFACE $<INSTALL_INTERFACE:include> $<BUILD_INTERFACE:${ZMusic_SOURCE_DIR}/include>)
 
-target_link_libraries_hidden(zmusic zmusic-obj adl oplsynth opn timidity timidityplus wildmidi fluidsynth)
-target_link_libraries_hidden(zmusiclite zmusic-obj fluidsynth)
+if (NOT ANDROID)
+    target_link_libraries_hidden(zmusic zmusic-obj adl oplsynth opn timidity timidityplus wildmidi fluidsynth)
+    target_link_libraries_hidden(zmusiclite zmusic-obj fluidsynth)
+else ()
+    set(FLUIDSYNTH_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../../../../../fluidsynth/src/main/jni/fluidsynth-android/include")
+
+    if (DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(FLUIDSYNTH_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../fluidsynth/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/${ANDROID_ABI}/libfluidsynth.so")
+    else ()
+        set(FLUIDSYNTH_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../fluidsynth/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/${ANDROID_ABI}/libfluidsynth.so")
+    endif ()
+
+    target_include_directories(zmusic PRIVATE ${FLUIDSYNTH_INCLUDE_DIR})
+    target_include_directories(zmusiclite PRIVATE ${FLUIDSYNTH_INCLUDE_DIR})
+
+    target_link_libraries_hidden(zmusic zmusic-obj adl oplsynth opn timidity timidityplus wildmidi ${FLUIDSYNTH_LIBRARY})
+    target_link_libraries_hidden(zmusiclite zmusic-obj ${FLUIDSYNTH_LIBRARY})
+endif ()
 
 target_compile_definitions(zmusic PUBLIC $<$<STREQUAL:$<TARGET_PROPERTY:zmusic,TYPE>,STATIC_LIBRARY>:ZMUSIC_STATIC>)
 target_compile_definitions(zmusiclite PRIVATE ZMUSIC_LITE=1 PUBLIC $<$<STREQUAL:$<TARGET_PROPERTY:zmusiclite,TYPE>,STATIC_LIBRARY>:ZMUSIC_STATIC>)
