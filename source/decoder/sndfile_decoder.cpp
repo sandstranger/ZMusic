@@ -46,6 +46,8 @@ FModule SndFileModule{"SndFile"};
 static const char* const libnames[] = { "sndfile.dll", "libsndfile-1.dll" };
 #elif defined(__APPLE__)
 static const char* const libnames[] = { "libsndfile.1.dylib" };
+#elif ANDROID
+static const char* const libnames[] = { "libsndfile.so" };
 #else
 static const char* const libnames[] = { "libsndfile.so.1" };
 #endif
@@ -63,8 +65,12 @@ extern "C" int IsSndFilePresent()
 		done = true;
         for (auto libname : libnames)
         {
+#if ANDROID
+            cached_result = SndFileModule.Load({ libname });
+#else
             auto abspath = FModule_GetProgDir() + "/" + libname;
             cached_result = SndFileModule.Load({ abspath.c_str(), libname });
+#endif
             if (cached_result) break;
         }
 	}

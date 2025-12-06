@@ -47,6 +47,8 @@ FModule MPG123Module{"MPG123"};
 #define MPG123LIB "libmpg123-0.dll"
 #elif defined(__APPLE__)
 #define MPG123LIB "libmpg123.0.dylib"
+#elif ANDROID
+#define MPG123LIB "libmpg123.so"
 #else
 #define MPG123LIB "libmpg123.so.0"
 #endif
@@ -62,8 +64,12 @@ bool IsMPG123Present()
 	if (!done)
 	{
 		done = true;
+#if ANDROID
+        cached_result = MPG123Module.Load({MPG123LIB});
+#else
 		auto abspath = FModule_GetProgDir() + "/" MPG123LIB;
 		cached_result = MPG123Module.Load({abspath.c_str(), MPG123LIB});
+#endif
 	}
 	return cached_result;
 #endif

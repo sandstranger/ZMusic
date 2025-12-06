@@ -178,8 +178,8 @@ else ()
     target_include_directories(zmusic PRIVATE ${FLUIDSYNTH_INCLUDE_DIR})
     target_include_directories(zmusiclite PRIVATE ${FLUIDSYNTH_INCLUDE_DIR})
 
-    target_link_libraries_hidden(zmusic zmusic-obj adl oplsynth opn timidity timidityplus wildmidi ${FLUIDSYNTH_LIBRARY})
-    target_link_libraries_hidden(zmusiclite zmusic-obj ${FLUIDSYNTH_LIBRARY})
+    target_link_libraries_hidden(zmusic zmusic-obj adl oplsynth opn timidity timidityplus wildmidi ${FLUIDSYNTH_LIBRARY} log)
+    target_link_libraries_hidden(zmusiclite zmusic-obj ${FLUIDSYNTH_LIBRARY} log)
 endif ()
 
 target_compile_definitions(zmusic PUBLIC $<$<STREQUAL:$<TARGET_PROPERTY:zmusic,TYPE>,STATIC_LIBRARY>:ZMUSIC_STATIC>)
