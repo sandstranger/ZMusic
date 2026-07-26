@@ -172,10 +172,10 @@ else ()
 
     if (DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(FLUIDSYNTH_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../fluidsynth/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/${ANDROID_ABI}/libfluidsynth.so")
-		set(SAFFAL_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../SAFFAL/saffal/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/${ANDROID_ABI}/libsaffal.so")
+		set(SAFFAL_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../SAFFAL/saffal/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/${ANDROID_ABI}/libsaffal.so")
     else ()
         set(FLUIDSYNTH_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../fluidsynth/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/${ANDROID_ABI}/libfluidsynth.so")
-		set(SAFFAL_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../SAFFAL/saffal/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/${ANDROID_ABI}/libsaffal.so")
+		set(SAFFAL_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../SAFFAL/saffal/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/${ANDROID_ABI}/libsaffal.so")
     endif ()
 
     target_include_directories(zmusic PRIVATE ${FLUIDSYNTH_INCLUDE_DIR})
