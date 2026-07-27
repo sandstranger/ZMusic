@@ -172,17 +172,15 @@ else ()
 
     if (DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(FLUIDSYNTH_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../fluidsynth/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/${ANDROID_ABI}/libfluidsynth.so")
-		set(SAFFAL_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../SAFFAL/saffal/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/${ANDROID_ABI}/libsaffal.so")
     else ()
         set(FLUIDSYNTH_LIBRARY "${CMAKE_SOURCE_DIR}/../../../../../fluidsynth/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/${ANDROID_ABI}/libfluidsynth.so")
-		set(SAFFAL_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../SAFFAL/saffal/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/${ANDROID_ABI}/libsaffal.so")
     endif ()
 
     target_include_directories(zmusic PRIVATE ${FLUIDSYNTH_INCLUDE_DIR})
     target_include_directories(zmusiclite PRIVATE ${FLUIDSYNTH_INCLUDE_DIR})
 
     target_link_libraries_hidden(zmusic zmusic-obj adl oplsynth opn timidity timidityplus wildmidi ${FLUIDSYNTH_LIBRARY} log)
-    target_link_libraries_hidden(zmusiclite zmusic-obj ${SAFFAL_LIBRARY} ${FLUIDSYNTH_LIBRARY} log)
+    target_link_libraries_hidden(zmusiclite zmusic-obj ${FLUIDSYNTH_LIBRARY} log)
 endif ()
 
 target_compile_definitions(zmusic PUBLIC $<$<STREQUAL:$<TARGET_PROPERTY:zmusic,TYPE>,STATIC_LIBRARY>:ZMUSIC_STATIC>)
