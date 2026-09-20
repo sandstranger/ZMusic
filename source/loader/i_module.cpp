@@ -48,6 +48,7 @@
 using HMODULE = void*;
 #endif
 
+__attribute__((used)) __attribute__((visibility("default")))
 bool FModule::Load(std::initializer_list<const char*> libnames)
 {
 	for(auto lib : libnames)
@@ -72,6 +73,7 @@ bool FModule::Load(std::initializer_list<const char*> libnames)
 	return false;
 }
 
+__attribute__((used)) __attribute__((visibility("default")))
 void FModule::Unload()
 {
 	if(handle)
@@ -81,6 +83,7 @@ void FModule::Unload()
 	}
 }
 
+__attribute__((used)) __attribute__((visibility("default")))
 bool FModule::Open(const char* lib)
 {
 #ifdef _WIN32
@@ -95,6 +98,7 @@ bool FModule::Open(const char* lib)
 	return handle != nullptr;
 }
 
+__attribute__((used)) __attribute__((visibility("default")))
 void *FModule::GetSym(const char* name)
 {
 	return (void *)GetProcAddress((HMODULE)handle, name);
@@ -102,11 +106,13 @@ void *FModule::GetSym(const char* name)
 
 static std::string module_progdir(".");	// current program directory used to look up dynamic libraries. Default to something harmless in case the user didn't set it.
 
+__attribute__((used)) __attribute__((visibility("default")))
 void FModule_SetProgDir(const char* progdir)
 {
 	module_progdir = progdir;
 }
 
+__attribute__((used)) __attribute__((visibility("default")))
 const std::string& FModule_GetProgDir()
 {
     return module_progdir;
